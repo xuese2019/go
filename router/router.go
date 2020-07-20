@@ -70,14 +70,14 @@ func init() {
 		}
 	}
 
-	//以下的接口，都使用Authorize()中间件身份验证
-	// 全局中间件Use
-	// router.Use(Authorize())
-
 	loginR := router.Group("/login")
 	{
 		loginR.POST("/login", login.Login)
 	}
+
+	//以下的接口，都使用Authorize()中间件身份验证
+	// 全局中间件Use
+	// router.Use(Authorize())
 
 	userR := router.Group("/user")
 	{
