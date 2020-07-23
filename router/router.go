@@ -77,15 +77,15 @@ func init() {
 
 	//以下的接口，都使用Authorize()中间件身份验证
 	// 全局中间件Use
-	// router.Use(Authorize())
+	router.Use(Authorize())
 
 	userR := router.Group("/user")
 	{
-		userR.POST("/add", user.Add)
-		userR.DELETE("/remove/:uuid", user.Remove)
-		userR.PUT("/edit/:uuid", user.Edit)
-		userR.GET("/one/:uuid", user.One)
-		userR.GET("/page/:pageNow/:pageSize", user.Page)
+		userR.POST("/add", user.AddUser)
+		userR.DELETE("/remove/:uuid", user.RemoveUser)
+		userR.PUT("/edit/:uuid", user.UpdateUser)
+		userR.GET("/one/:uuid", user.OneUser)
+		userR.GET("/page/:pageNow/:pageSize", user.PageUser)
 	}
 
 	router.Run(":9000")
@@ -96,6 +96,8 @@ func Authorize() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		auth := c.Request.Header.Get("auth")
 		if auth != "" {
+			// 验证token
+
 			// 验证通过，会继续访问下一个中间件
 			c.Next()
 		} else {
