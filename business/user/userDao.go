@@ -19,13 +19,13 @@ func Add(u UserStruct) *error {
 	// // 非事务绑定 start
 	// ret, err := mysql.Db.Exec(sqlStr, u.Uuid, u.Account, u.Password)
 	// if err != nil {
-	// 	log.Panicln(err)
+	// 	log.Println(err)
 	// 	return _, &err
 	// }
 	// // 影响的行数
 	// n, err := ret.RowsAffected()
 	// if err != nil {
-	// 	log.Panicln(err)
+	// 	log.Println(err)
 	// 	return _, &err
 	// }
 	// return n, _
@@ -36,7 +36,7 @@ func Add(u UserStruct) *error {
 	if err != nil {
 		// 回滚事务
 		tx.Rollback()
-		log.Panicln(err)
+		log.Println(err)
 		return &err
 	}
 	// 提交事务
@@ -44,7 +44,7 @@ func Add(u UserStruct) *error {
 	if err != nil {
 		// 回滚事务
 		tx.Rollback()
-		log.Panicln(err)
+		log.Println(err)
 		return &err
 	}
 	return nil
@@ -55,13 +55,13 @@ func Update(u UserStruct) *error {
 	sqlStr := `update user_table set password = ? where uuid = ?`
 	ret, err := mysql.Db.Exec(sqlStr, u.Password, u.Uuid)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return &err
 	}
 	// 影响的行数
 	_, err = ret.RowsAffected()
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return &err
 	}
 	return nil
@@ -72,13 +72,13 @@ func Delete(uuid string) *error {
 	sqlStr := `delete from user_table where uuid = ?`
 	ret, err := mysql.Db.Exec(sqlStr, uuid)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return &err
 	}
 	// 影响的行数
 	_, err = ret.RowsAffected()
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return &err
 	}
 	return nil
@@ -109,12 +109,12 @@ func FindById(uuid string) *UserStruct {
 }
 
 // 查询所有
-func FindAllLimit(acc string, pageSize int, pageNum int) *[]UserStruct {
+func FindAllLimit(pageSize int, pageNum int, acc string) *[]UserStruct {
 
 	// 切片
 	users := make([]UserStruct, 0)
 
-	sqlStr := `select uuid,account,password from godemo.user_table limit ?,?`
+	sqlStr := `select uuid,account from godemo.user_table limit ?,?`
 	rows, err := mysql.Db.Query(sqlStr, (pageNum-1)*pageSize, pageSize)
 	if err != nil {
 		log.Println(err)
@@ -134,11 +134,11 @@ func FindAllLimit(acc string, pageSize int, pageNum int) *[]UserStruct {
 	// 循环取值
 	for rows.Next() {
 		var u UserStruct
-		err = rows.Scan(&u.Uuid, &u.Account, &u.Password)
+		err = rows.Scan(&u.Uuid, &u.Account)
 		if err != nil {
-			log.Panicln(err)
+			log.Println(err)
 		}
-		log.Println(u)
+		users = append(users, u)
 	}
 	return &users
 }

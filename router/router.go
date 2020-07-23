@@ -67,6 +67,13 @@ func init() {
 					"title": "系统",
 				})
 			})
+
+			// 帐号管理主页面
+			HtmlR2.GET("/user", func(c *gin.Context) {
+				c.HTML(200, "user.html", gin.H{
+					"title": "帐号管理",
+				})
+			})
 		}
 	}
 
@@ -77,7 +84,7 @@ func init() {
 
 	//以下的接口，都使用Authorize()中间件身份验证
 	// 全局中间件Use
-	router.Use(Authorize())
+	// router.Use(Authorize())
 
 	userR := router.Group("/user")
 	{
@@ -85,7 +92,7 @@ func init() {
 		userR.DELETE("/remove/:uuid", user.RemoveUser)
 		userR.PUT("/edit/:uuid", user.UpdateUser)
 		userR.GET("/one/:uuid", user.OneUser)
-		userR.GET("/page/:pageNow/:pageSize", user.PageUser)
+		userR.POST("/page/:pageNow/:pageSize", user.PageUser)
 	}
 
 	router.Run(":9000")

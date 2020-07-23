@@ -1,0 +1,43 @@
+<div>
+    <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">帐号管理</h3>
+
+              <div class="card-tools">
+                <form action="#" id="form-search-user">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="acc" class="form-control float-right" placeholder="Search">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-default" onclick="page(1)">
+                            <ion-icon name="search-outline"></ion-icon>
+                        </button>
+                    </div>
+                    </div>
+                </form>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+              <table class="table table-hover text-nowrap">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>帐号</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="table-data">
+                  
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+<!-- home js -->
+<script src="/static/js/user/user.js"></script>
+</div>
