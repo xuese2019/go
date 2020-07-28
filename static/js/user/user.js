@@ -1,11 +1,11 @@
-let pageNum = 1
-let pageSize = 5
+var pageNow
+var pageSize = 5
 page(1)
 
 function page(i){
-    pageNum = i
+    pageNow = i
     $.ajax({
-        url:"/user/page/"+pageNum+"/"+pageSize,
+        url:"/user/page/"+i+"/"+pageSize,
         dataType:"json",
         async:true,
         data:$("#form-search-user").serialize(),

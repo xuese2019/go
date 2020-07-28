@@ -110,27 +110,21 @@ func FindById(uuid string) *UserStruct {
 
 // 查询所有
 func FindAllLimit(pageSize int, pageNum int, acc string) *[]UserStruct {
-
 	// 切片
 	users := make([]UserStruct, 0)
 
-	sqlStr := `select uuid,account from godemo.user_table limit ?,?`
-	rows, err := mysql.Db.Query(sqlStr, (pageNum-1)*pageSize, pageSize)
+	sqlStr := `select uuid,account from godemo.user_table where 1=1 `
+	// if acc != nil && acc != "" {
+	// 	sqlStr += ` and account like ?`
+	// }
+	sqlStr += ` limit ?,?`
+	rows, err := mysql.Db.Query(sqlStr, acc, (pageNum-1)*pageSize, pageSize)
 	if err != nil {
 		log.Println(err)
 		return nil
 	}
 
 	defer rows.Close()
-
-	// 动态查询条件
-	// if acc != "" {
-	// 	mysql.Db.Where("account like %?%", acc)
-	// }
-	// if pageSize > 0 && pageNum > 0 {
-	// 	mysql.Db.Limit(pageSize).Offset((pageNum - 1) * pageSize)
-	// }
-
 	// 循环取值
 	for rows.Next() {
 		var u UserStruct
